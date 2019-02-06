@@ -25,6 +25,8 @@ object AppServerConfig extends ServerConfig {
   endpoints.add(ApiEndpoint)
 
   override def appEndpoints(): java.util.Collection[Endpoint[_]] = endpoints
+  override def endpointsPort(): Int = 80
+
 }
 
 object HelloWorldEndpoint extends StandardEndpoint[Void, String] {
