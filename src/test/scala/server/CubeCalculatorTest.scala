@@ -1,5 +1,6 @@
+package server
+
 import org.scalatest.FunSuite
-import server.CubeCalculator
 
 class CubeCalculatorTest extends FunSuite {
   test("CubeCalculator.cube") {
