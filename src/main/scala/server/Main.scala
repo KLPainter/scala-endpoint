@@ -13,6 +13,7 @@ import com.nike.riposte.util.Matcher
 import com.ning.http.client.Response
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.http.HttpMethod
+import org.slf4j.{Logger, LoggerFactory}
 
 object Main extends App {
   val server = new Server(AppServerConfig)
@@ -47,6 +48,8 @@ object HelloWorldEndpoint extends StandardEndpoint[Void, String] {
 object ApiEndpoint extends StandardEndpoint[Void, String] {
   override def requestMatcher(): Matcher = Matcher.`match`("/apiEndpoint")
   val asyncHttpClientHelper = new AsyncHttpClientHelper
+  val logger = LoggerFactory.getLogger(this.getClass)
+
 
   override def execute(
                         request: RequestInfo[Void],
@@ -58,20 +61,17 @@ object ApiEndpoint extends StandardEndpoint[Void, String] {
     }
     val reqWrapper = buildRequest("https://ron-swanson-quotes.herokuapp.com/v2/quotes", HttpMethod.GET)
 
+    logger.info("About to make async call to external url")
+    val startTime = System.currentTimeMillis
+
     asyncHttpClientHelper.executeAsyncHttpRequest(reqWrapper, (asyncResponse: Response) => {
-      def handleResponse(asyncResponse: Response) :FullResponseInfo[String] = {
+      def handleResponse(asyncResponse: Response): FullResponseInfo[String] = {
+        logger.info("Total time spent on external call (in millis): {}", (System.currentTimeMillis - startTime))
         ResponseInfo.newBuilder(asyncResponse.getResponseBody).build
       }
       handleResponse(asyncResponse)
     }, ctx)
   }
-
-
-  // timer stuff
-  //  logger.info("About to make async library call")
-  //  val startTime = new ExampleDownstreamHttpAsyncEndpoint.ObjectHolder[Long]
-  //  startTime.heldObject = System.currentTimeMillis
-  //logger.info("In async response handler. Total time spent millis: {}", System.currentTimeMillis - startTime.heldObject)
 
   // additional buildRequest stuff
   //    reqWrapper.requestBuilder.addQueryParam("some_query_param", "foo").addHeader("Accept", "application/json")
