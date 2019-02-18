@@ -14,6 +14,10 @@ class MainTest extends AsyncFlatSpec {
     assert(responseInfo.getContentForFullResponse == "Hello, Karen!")
   }
 
+}
+
+//class ApiTest extends AsyncFlatSpec with MockFactory {
+//
 //  "ApiEndpoint GET" should "return a string" in {
 //    val asyncHttpClientHelperMock = mock[AsyncHttpClientHelper]
 //    (asyncHttpClientHelperMock.executeAsyncHttpRequest _).returns("A quote")
@@ -21,5 +25,5 @@ class MainTest extends AsyncFlatSpec {
 //    val responseInfo: ResponseInfo[String] = responseFuture.get()
 //    assert(responseInfo.getContentForFullResponse == "A quote")
 //  }
-
-}
+//
+//}
