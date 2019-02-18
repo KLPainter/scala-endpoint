@@ -6,7 +6,7 @@ import org.scalatest.AsyncFlatSpec
 import org.scalamock.scalatest.MockFactory
 import com.nike.riposte.client.asynchttp.ning.AsyncHttpClientHelper
 
-class MainTest extends AsyncFlatSpec with MockFactory {
+class MainTest extends AsyncFlatSpec {
 
   "HelloWorldEndpoint GET" should "return a greeting" in {
     val responseFuture: CompletableFuture[ResponseInfo[String]] = HelloWorldEndpoint.execute(null, null, null)
